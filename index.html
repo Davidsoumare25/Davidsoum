@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>ExpoBook</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <button id="postBtn">➕</button>
+  <h1>ExpoBook</h1>
+</header>
+
+<nav>
+  <button onclick="show('feed')">Accueil</button>
+  <button onclick="show('groups')">Groupes</button>
+  <button onclick="show('profile')">Profil</button>
+</nav>
+
+<section id="feed">
+  <div id="posts"></div>
+</section>
+
+<section id="groups" class="hidden">
+  <input id="groupInput" placeholder="Nom du groupe">
+  <button onclick="addGroup()">Créer</button>
+  <ul id="groupList"></ul>
+</section>
+
+<section id="profile" class="hidden">
+  <input id="nameInput" placeholder="Ton nom">
+  <button onclick="saveName()">Enregistrer</button>
+  <p id="myName"></p>
+</section>
+
+<div id="modal" class="hidden">
+  <textarea id="postText" placeholder="Ta publication"></textarea>
+  <input type="file" id="postImg">
+  <button onclick="publish()">Publier</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
