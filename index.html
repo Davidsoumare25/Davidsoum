@@ -1,46 +1,41 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>ExpoBook</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExpoBook</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <button id="postBtn">➕</button>
-  <h1>ExpoBook</h1>
-</header>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="ExpoBook Logo">
+      <h1>ExpoBook</h1>
+    </div>
+    <nav>
+      <button id="btnAccueil">Accueil</button>
+      <button id="btnGroupes">Groupes</button>
+      <button id="btnProfil">Profil</button>
+    </nav>
+  </header>
 
-<nav>
-  <button onclick="show('feed')">Accueil</button>
-  <button onclick="show('groups')">Groupes</button>
-  <button onclick="show('profile')">Profil</button>
-</nav>
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- Zone de publication -->
+    <section class="publication">
+      <textarea id="textePublication" placeholder="Ta publication"></textarea>
+      <input type="file" id="fichierPublication">
+      <button id="btnPublier">Publier</button>
+    </section>
 
-<section id="feed">
-  <div id="posts"></div>
-</section>
+    <!-- Fil d’actualité -->
+    <section class="feed" id="feed">
+      <p>Aucune publication pour l’instant...</p>
+    </section>
+  </main>
 
-<section id="groups" class="hidden">
-  <input id="groupInput" placeholder="Nom du groupe">
-  <button onclick="addGroup()">Créer</button>
-  <ul id="groupList"></ul>
-</section>
-
-<section id="profile" class="hidden">
-  <input id="nameInput" placeholder="Ton nom">
-  <button onclick="saveName()">Enregistrer</button>
-  <p id="myName"></p>
-</section>
-
-<div id="modal" class="hidden">
-  <textarea id="postText" placeholder="Ta publication"></textarea>
-  <input type="file" id="postImg">
-  <button onclick="publish()">Publier</button>
-</div>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
