@@ -48,3 +48,27 @@ function saveName() {
 
 render();
 renderGroups();
+const btnPublier = document.getElementById('btnPublier');
+const feed = document.getElementById('feed');
+
+btnPublier.addEventListener('click', () => {
+  const texte = document.getElementById('textePublication').value;
+  const fichier = document.getElementById('fichierPublication').files[0];
+
+  if (texte === "" && !fichier) {
+    alert("Écris quelque chose ou choisis un fichier !");
+    return;
+  }
+
+  const post = document.createElement('div');
+  post.classList.add('post');
+
+  post.innerHTML = `<p>${texte}</p>` + 
+    (fichier ? `<p>Fichier : ${fichier.name}</p>` : "");
+
+  feed.prepend(post);
+
+  // Réinitialiser
+  document.getElementById('textePublication').value = "";
+  document.getElementById('fichierPublication').value = "";
+});
