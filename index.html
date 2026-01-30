@@ -1,61 +1,60 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>ExpoBook</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpoBook</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.32.1/dist/supabase.min.js"></script>
 </head>
 <body>
+    <header>
+        <img src="logo.png" alt="Logo ExpoBook" id="logo">
+        <h1>ExpoBook</h1>
+    </header>
 
-<header>
-  <div class="left">
-    <button class="icon">＋</button>
-    <h1>📘 ExpoBook</h1>
-  </div>
-  <div class="right">
-    <button class="icon" onclick="showPage('contacts')">👥</button>
-    <button class="icon" onclick="showPage('profil')">🙂</button>
-  </div>
-</header>
+    <main>
+        <!-- Connexion / Inscription -->
+        <div id="auth-section">
+            <h2>Connexion / Inscription</h2>
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Mot de passe">
+            <input type="text" id="displayName" placeholder="Nom affiché (inscription)">
+            <input type="file" id="profilePhoto">
+            <button id="signup-btn">S’inscrire</button>
+            <button id="login-btn">Se connecter</button>
+            <p id="auth-msg"></p>
+        </div>
 
-<div class="search">
-  <input type="text" placeholder="Rechercher">
-</div>
+        <!-- Profil et publication -->
+        <div id="main-section" style="display:none;">
+            <div id="profile">
+                <img id="profile-img" src="" alt="Photo de profil">
+                <h3 id="profile-name"></h3>
+                <button id="logout-btn">Se déconnecter</button>
+            </div>
 
-<nav>
-  <button onclick="showPage('feed')" class="active">Fil d'actualité</button>
-  <button onclick="showPage('groupes')">Groupes</button>
-</nav>
+            <div id="create-post">
+                <textarea id="post-text" placeholder="Écris quelque chose..."></textarea>
+                <input type="file" id="post-image">
+                <button id="publish-btn">Publier</button>
+            </div>
 
-<!-- FEED -->
-<section id="feed" class="page">
-  <div class="post-box">
-    <textarea id="postText" placeholder="Écris ta publication..."></textarea>
-    <button onclick="publish()">Publier</button>
-  </div>
+            <div id="feed">
+                <h2>Fil d’actualité</h2>
+                <div id="posts-container"></div>
+            </div>
 
-  <div id="posts"></div>
-</section>
+            <div id="groups">
+                <h2>Groupes</h2>
+                <input type="text" id="group-name" placeholder="Nom du groupe">
+                <button id="create-group">Créer un groupe</button>
+                <div id="groups-list"></div>
+            </div>
+        </div>
+    </main>
 
-<!-- GROUPES -->
-<section id="groupes" class="page hidden">
-  <h2>📚 Groupes</h2>
-  <p>Aucun groupe pour l’instant</p>
-</section>
-
-<!-- CONTACTS -->
-<section id="contacts" class="page hidden">
-  <h2>👥 Contacts</h2>
-  <p>Aucun contact</p>
-</section>
-
-<!-- PROFIL -->
-<section id="profil" class="page hidden">
-  <h2>🙂 Mon profil</h2>
-  <p>Nom : Utilisateur</p>
-</section>
-
-<script src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
