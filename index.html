@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ExpoBook</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.32.1/dist/supabase.min.js"></script>
 </head>
 <body>
     <header>
-        <img src="logo.png" alt="Logo ExpoBook" id="logo">
+        <span id="logo">📝</span>
         <h1>ExpoBook</h1>
     </header>
 
@@ -27,10 +26,10 @@
             <p id="auth-msg"></p>
         </div>
 
-        <!-- Profil et publication -->
+        <!-- Profil, publication et fil -->
         <div id="main-section" style="display:none;">
             <div id="profile">
-                <img id="profile-img" src="" alt="Photo de profil">
+                <span id="profile-img">🧑</span>
                 <h3 id="profile-name"></h3>
                 <button id="logout-btn">Se déconnecter</button>
             </div>
