@@ -6,7 +6,7 @@ const SUPABASE_ANON_KEY = "sb_publishable_7jMQPyW96hyIn1mRtIleYA_LhiZ_jRA";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// --- Éléments HTML ---
+// --- HTML elements ---
 const authSection = document.getElementById('auth-section');
 const mainSection = document.getElementById('main-section');
 
@@ -53,8 +53,9 @@ signupBtn.addEventListener('click', async () => {
 
     let photo_url = "";
     if(file){
-        const { data, error } = await supabase.storage.from('profiles').upload(file.name, file);
-        if(!error) photo_url = `https://xwzjlddgqwlrxgetahvp.supabase.co/storage/v1/object/public/profiles/${file.name}`;
+        const filename = `${currentUser.id}_${Date.now()}_${file.name}`;
+        const { data, error } = await supabase.storage.from('profiles').upload(filename, file);
+        if(!error) photo_url = `https://xwzjlddgqwlrxgetahvp.supabase.co/storage/v1/object/public/profiles/${filename}`;
     }
 
     await supabase.from('users').insert([{ id:user.id, email, display_name: displayName, profile_photo: photo_url }]);
@@ -107,8 +108,9 @@ publishBtn.addEventListener('click', async () => {
     let image_url = "";
 
     if(file){
-        const { data, error } = await supabase.storage.from('posts').upload(file.name, file);
-        if(!error) image_url = `https://xwzjlddgqwlrxgetahvp.supabase.co/storage/v1/object/public/posts/${file.name}`;
+        const filename = `${currentUser.id}_${Date.now()}_${file.name}`;
+        const { data, error } = await supabase.storage.from('posts').upload(filename, file);
+        if(!error) image_url = `https://xwzjlddgqwlrxgetahvp.supabase.co/storage/v1/object/public/posts/${filename}`;
     }
 
     if(!text && !image_url){ alert("Rien à publier"); return; }
