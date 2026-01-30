@@ -1,100 +1,71 @@
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
 body {
-  margin: 0;
-  background: #f0f2f5;
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:0;
+    background:#f2f2f2;
 }
 
 header {
-  background: #1877f2;
-  color: white;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display:flex;
+    align-items:center;
+    background:#1877f2;
+    color:white;
+    padding:10px;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 20px;
+header #logo {
+    width:40px;
+    margin-right:10px;
 }
 
-.icon {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 22px;
-  margin-right: 10px;
+main {
+    padding:20px;
 }
 
-.search {
-  padding: 10px;
-  background: white;
+#auth-section, #main-section {
+    max-width:500px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-.search input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
+input, textarea, button {
+    width:100%;
+    margin:5px 0;
+    padding:10px;
+    border-radius:5px;
+    border:1px solid #ccc;
 }
 
-nav {
-  display: flex;
-  background: #e4e6eb;
+button {
+    background:#1877f2;
+    color:white;
+    border:none;
+    cursor:pointer;
 }
 
-nav button {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  background: none;
-  font-weight: bold;
+button:hover {
+    background:#145dbf;
 }
 
-nav button.active {
-  background: white;
-  border-bottom: 3px solid #1877f2;
+#profile {
+    display:flex;
+    align-items:center;
+    margin-bottom:20px;
 }
 
-.page {
-  padding: 10px;
-}
-
-.hidden {
-  display: none;
-}
-
-.post-box {
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.post-box textarea {
-  width: 100%;
-  height: 60px;
-  border-radius: 6px;
-  padding: 8px;
-}
-
-.post-box button {
-  margin-top: 8px;
-  background: #1877f2;
-  color: white;
-  border: none;
-  padding: 8px;
-  width: 100%;
-  border-radius: 6px;
+#profile-img {
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    margin-right:10px;
 }
 
 .post {
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 10px;
+    background:#e9ebee;
+    padding:10px;
+    margin:10px 0;
+    border-radius:10px;
 }
