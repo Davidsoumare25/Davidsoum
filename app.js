@@ -1,12 +1,12 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.32.1/dist/supabase.min.js";
 
-// --- Configuration Supabase ---
+// --- Supabase config ---
 const SUPABASE_URL = "https://xwzjlddgqwlrxgetahvp.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_7jMQPyW96hyIn1mRtIleYA_LhiZ_jRA";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// --- Sélection des éléments ---
+// --- Éléments HTML ---
 const authSection = document.getElementById('auth-section');
 const mainSection = document.getElementById('main-section');
 
@@ -41,27 +41,29 @@ signupBtn.addEventListener('click', async () => {
     const displayName = displayNameInput.value;
     const file = profilePhotoInput.files[0];
 
-    if(!email || !password || !displayName) return alert("Remplis tous les champs");
+    if(!email || !password || !displayName){
+        alert("Remplis tous les champs");
+        return;
+    }
 
-    // Upload photo
+    const { data:user, error } = await supabase.auth.signUp({ email, password });
+    if(error){ authMsg.textContent = error.message; return; }
+
+    currentUser = user;
+
     let photo_url = "";
     if(file){
-        const { data, error } = await supabase.storage.from('profiles').upload(`public/${file.name}`, file);
-        if(error) console.log(error);
-        else photo_url = `https://xwzjlddgqwlrxgetahvp.supabase.co/storage/v1/object/public/profiles/${file.name}`;
+        const { data, error } = await supabase.storage.from('profiles').upload(file.name, file);
+        if(!error) photo_url = `https://xwzjlddgqwlrxgetahvp.supabase.co/storage/v1/object/public/profiles/${file.name}`;
     }
 
-    // Créer utilisateur
-    const { user, error } = await supabase.auth.signUp({ email, password });
-    if(error) authMsg.textContent = error.message;
-    else{
-        currentUser = user;
-        await supabase.from('users').insert([{ id:user.id, email, display_name: displayName, profile_photo: photo_url }]);
-        authSection.style.display = 'none';
-        mainSection.style.display = 'block';
-        loadProfile();
-        loadPosts();
-    }
+    await supabase.from('users').insert([{ id:user.id, email, display_name: displayName, profile_photo: photo_url }]);
+
+    authSection.style.display = 'none';
+    mainSection.style.display = 'block';
+    loadProfile();
+    loadPosts();
+    loadGroups();
 });
 
 // --- CONNEXION ---
@@ -70,14 +72,14 @@ loginBtn.addEventListener('click', async () => {
     const password = passwordInput.value;
 
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if(error) authMsg.textContent = error.message;
-    else{
-        currentUser = data.user;
-        authSection.style.display = 'none';
-        mainSection.style.display = 'block';
-        loadProfile();
-        loadPosts();
-    }
+    if(error){ authMsg.textContent = error.message; return; }
+
+    currentUser = data.user;
+    authSection.style.display = 'none';
+    mainSection.style.display = 'block';
+    loadProfile();
+    loadPosts();
+    loadGroups();
 });
 
 // --- LOGOUT ---
@@ -88,11 +90,14 @@ logoutBtn.addEventListener('click', async () => {
     authSection.style.display = 'block';
 });
 
-// --- LOAD PROFILE ---
+// --- PROFILE ---
 async function loadProfile(){
     const { data } = await supabase.from('users').select('*').eq('id', currentUser.id).single();
     profileName.textContent = data.display_name;
-    profileImg.src = data.profile_photo || 'default.png';
+    profileImg.textContent = data.profile_photo ? "" : "🧑";
+    if(data.profile_photo) profileImg.style.backgroundImage = `url(${data.profile_photo})`;
+    profileImg.style.backgroundSize = "cover";
+    profileImg.style.backgroundPosition = "center";
 }
 
 // --- PUBLIER ---
@@ -102,20 +107,21 @@ publishBtn.addEventListener('click', async () => {
     let image_url = "";
 
     if(file){
-        const { data, error } = await supabase.storage.from('posts').upload(`public/${file.name}`, file);
-        if(error) console.log(error);
-        else image_url = `https://xwzjlddgqwlrxgetahvp.supabase.co/storage/v1/object/public/posts/${file.name}`;
+        const { data, error } = await supabase.storage.from('posts').upload(file.name, file);
+        if(!error) image_url = `https://xwzjlddgqwlrxgetahvp.supabase.co/storage/v1/object/public/posts/${file.name}`;
     }
 
-    if(!text && !image_url) return alert("Rien à publier");
+    if(!text && !image_url){ alert("Rien à publier"); return; }
 
     await supabase.from('posts').insert([{ user_id: currentUser.id, content: text, image_url, created_at: new Date() }]);
+
     postText.value = "";
     postImage.value = "";
+
     loadPosts();
 });
 
-// --- LOAD POSTS ---
+// --- LOAD POSTS + Likes + Commentaires ---
 async function loadPosts(){
     postsContainer.innerHTML = "";
     const { data, error } = await supabase.from('posts').select('*').order('created_at', { ascending:false });
@@ -125,7 +131,75 @@ async function loadPosts(){
         const div = document.createElement('div');
         div.className = "post";
         div.innerHTML = `<strong>${post.user_id}</strong><p>${post.content}</p>`;
-        if(post.image_url) div.innerHTML += `<img src="${post.image_url}" style="width:100%;border-radius:10px;margin-top:5px;">`;
+        if(post.image_url) div.innerHTML += `<img src="${post.image_url}">`;
+
+        div.innerHTML += `
+            <button class="like-btn" data-id="${post.id}">❤️ J'aime</button>
+            <span id="likes-${post.id}">0</span>
+            <div>
+                <input type="text" placeholder="Commentaire..." class="comment-input" data-id="${post.id}">
+                <button class="comment-btn" data-id="${post.id}">💬</button>
+                <div id="comments-${post.id}"></div>
+            </div>
+        `;
+
         postsContainer.appendChild(div);
+    }
+
+    // Likes
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const post_id = btn.dataset.id;
+            await supabase.from('likes').insert([{ post_id, user_id: currentUser.id }]);
+            loadPosts();
+        });
+    });
+
+    // Commentaires
+    document.querySelectorAll('.comment-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const post_id = btn.dataset.id;
+            const input = document.querySelector(`.comment-input[data-id="${post_id}"]`);
+            if(!input.value) return;
+            await supabase.from('comments').insert([{ post_id, user_id: currentUser.id, content: input.value }]);
+            input.value = "";
+            loadPosts();
+        });
+    });
+
+    // Charger le nombre de likes et commentaires
+    for(let post of data){
+        const { data: likesData } = await supabase.from('likes').select('*').eq('post_id', post.id);
+        document.getElementById(`likes-${post.id}`).textContent = likesData.length;
+
+        const { data: commentsData } = await supabase.from('comments').select('*').eq('post_id', post.id);
+        const commentsDiv = document.getElementById(`comments-${post.id}`);
+        commentsDiv.innerHTML = "";
+        for(let c of commentsData){
+            const p = document.createElement('p');
+            p.textContent = c.content;
+            commentsDiv.appendChild(p);
+        }
+    }
+}
+
+// --- GROUPES ---
+createGroupBtn.addEventListener('click', async () => {
+    const name = groupNameInput.value;
+    if(!name) return alert("Donne un nom au groupe");
+    await supabase.from('groups').insert([{ name, creator_id: currentUser.id }]);
+    groupNameInput.value = "";
+    loadGroups();
+});
+
+async function loadGroups(){
+    groupsList.innerHTML = "";
+    const { data, error } = await supabase.from('groups').select('*');
+    if(error) console.log(error);
+    for(let group of data){
+        const div = document.createElement('div');
+        div.className = "group";
+        div.textContent = group.name;
+        groupsList.appendChild(div);
     }
 }
