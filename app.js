@@ -1,4 +1,24 @@
-// --- SUPABASE CONFIG ---
+const supabase = supabase.createClient(
+  "TON_URL_SUPABASE",
+  "TON_ANON_KEY"
+);
+
+// 🔁 vérifier si un utilisateur est déjà connecté
+document.addEventListener("DOMContentLoaded", async () => {
+  const { data } = await supabase.auth.getSession();
+
+  if (data.session) {
+    // utilisateur connecté
+    document.getElementById("auth-section").style.display = "none";
+    document.getElementById("main-section").style.display = "block";
+
+    console.log("Utilisateur connecté :", data.session.user.email);
+  } else {
+    // utilisateur non connecté
+    document.getElementById("auth-section").style.display = "block";
+    document.getElementById("main-section").style.display = "none";
+  }
+});// --- SUPABASE CONFIG ---
 const SUPABASE_URL = "https://xwzjlddgqwlrxgetahvp.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3empsZGRncXdscnhnZXRhaHZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3MzY1NTQsImV4cCI6MjA4NTMxMjU1NH0.MsCgDKBz3jXrJ_dOcJ35koaLi-uBpNXoAoaFLAWDbkg";
 
