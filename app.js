@@ -1,6 +1,6 @@
 // 🔗 Supabase config
 const SUPABASE_URL = "https://xwzjlddgqwlrxgetahvp.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3empsZGRncXdscnhnZXRhaHZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3MzY1NTQsImV4cCI6MjA4NTMxMjU1NH0.MsCgDKBz3jXrJ_dOcJ35koaLi-uBpNXoAoaFLAWDbkg";
+const supabase_anon_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3empsZGRncXdscnhnZXRhaHZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3MzY1NTQsImV4cCI6MjA4NTMxMjU1NH0.MsCgDKBz3jXrJ_dOcJ35koaLi-uBpNXoAoaFLAWDbkg";
 
 const supabase = window.supabase.createClient(
   SUPABASE_URL,
@@ -72,3 +72,16 @@ logoutBtn.addEventListener("click", async () => {
   await supabase.auth.signOut();
   location.reload();
 });
+async function testPosts() {
+    const { data, error } = await supabase.from("posts").select("*");
+
+    // au lieu de console.log, on montre sur la page
+    const testDiv = document.createElement('div');
+    testDiv.style.background = "#ff0";
+    testDiv.style.padding = "10px";
+    testDiv.style.margin = "10px 0";
+    testDiv.textContent = error ? `ERREUR : ${error.message}` : `POSTS : ${JSON.stringify(data)}`;
+    document.body.prepend(testDiv);
+}
+
+testPosts();
