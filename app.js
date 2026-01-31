@@ -100,3 +100,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         loadPosts();
     }
 });
+// TEST VISUEL (pour vérifier que les boutons marchent)
+document.getElementById("login-btn").addEventListener("click", () => {
+  document.getElementById("auth-section").style.display = "none";
+  document.getElementById("main-section").style.display = "block";
+});
+
+document.getElementById("signup-btn").addEventListener("click", () => {
+  document.getElementById("auth-section").style.display = "none";
+  document.getElementById("main-section").style.display = "block";
+});
+
+document.getElementById("logout-btn").addEventListener("click", () => {
+  document.getElementById("main-section").style.display = "none";
+  document.getElementById("auth-section").style.display = "block";
+});
