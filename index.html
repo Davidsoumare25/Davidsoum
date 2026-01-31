@@ -1,76 +1,47 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>ExpoBook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- Supabase CDN (OBLIGATOIRE) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.32.1/dist/supabase.min.js"></script>
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header style="display:flex; align-items:center; gap:10px; padding:10px;">
-    <span id="logo" style="font-size:30px;">📝</span>
-    <h1>ExpoBook</h1>
-  </header>
+<header>
+  <span id="logo">📝</span>
+  <h1>ExpoBook</h1>
+</header>
 
-  <main>
+<main>
 
-    <!-- AUTH -->
-    <section id="auth-section">
-      <h2>Connexion / Inscription</h2>
+  <!-- AUTH -->
+  <section id="auth-section">
+    <h2>Connexion / Inscription</h2>
 
-      <input type="email" id="email" placeholder="Email" />
-      <input type="password" id="password" placeholder="Mot de passe" />
-      <input type="text" id="displayName" placeholder="Nom affiché (inscription)" />
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Mot de passe">
 
-      <button id="signup-btn">S’inscrire</button>
-      <button id="login-btn">Se connecter</button>
+    <button id="login-btn">Se connecter</button>
+    <button id="signup-btn">S’inscrire</button>
 
-      <p id="auth-msg"></p>
-    </section>
+    <p id="auth-msg"></p>
+  </section>
 
-    <!-- MAIN APP -->
-    <section id="main-section" style="display:none;">
+  <!-- APP -->
+  <section id="main-section" style="display:none;">
+    <h2>Bienvenue 🎉</h2>
+    <button id="logout-btn">Se déconnecter</button>
+  </section>
 
-      <!-- PROFIL -->
-      <div id="profile">
-        <span id="profile-img" style="font-size:40px;">📝</span>
-        <h3 id="profile-name"></h3>
-        <button id="logout-btn">Se déconnecter</button>
-      </div>
+</main>
 
-      <!-- CREATE POST -->
-      <div id="create-post">
-        <textarea id="post-text" placeholder="Écris quelque chose..."></textarea>
-        <button id="publish-btn">Publier</button>
-      </div>
-
-      <!-- FEED -->
-      <section id="feed">
-        <h2>Fil d’actualité</h2>
-        <div id="posts-container"></div>
-      </section>
-
-      <!-- GROUPS -->
-      <section id="groups">
-        <h2>Groupes</h2>
-        <input type="text" id="group-name" placeholder="Nom du groupe"/>
-        <button id="create-group">Créer un groupe</button>
-        <div id="groups-list"></div>
-      </section>
-
-    </section>
-  </main>
-
-  <!-- TON JS (SANS type=module ❗) -->
-  <script src="app.js"></script>
-
+<script src="app.js"></script>
 </body>
 </html>
