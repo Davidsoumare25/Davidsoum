@@ -2,44 +2,29 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>ExpoBook</title>
+  <title>ExpoBook – Connexion</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header>
-  <span id="logo">📝</span>
-  <h1>ExpoBook</h1>
+  <h1>ExpoBook 📝</h1>
 </header>
 
 <main>
+  <h2>Connexion / Inscription</h2>
 
-  <!-- AUTH -->
-  <section id="auth-section">
-    <h2>Connexion / Inscription</h2>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Mot de passe">
 
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Mot de passe">
+  <button id="login-btn">Se connecter</button>
+  <button id="signup-btn">S’inscrire</button>
 
-    <button id="login-btn">Se connecter</button>
-    <button id="signup-btn">S’inscrire</button>
-
-    <p id="auth-msg"></p>
-  </section>
-
-  <!-- APP -->
-  <section id="main-section" style="display:none;">
-    <h2>Bienvenue 🎉</h2>
-    <button id="logout-btn">Se déconnecter</button>
-  </section>
-
+  <p id="auth-msg"></p>
 </main>
 
 <script src="app.js"></script>
