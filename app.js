@@ -63,7 +63,7 @@ loginBtn.addEventListener("click", async () => {
   if (error) {
     authMsg.textContent = error.message;
   } else {
-    location.reload(); // 🔥 TRÈS IMPORTANT
+    window.location.href = "home.html";; // 🔥 TRÈS IMPORTANT
   }
 });
 
