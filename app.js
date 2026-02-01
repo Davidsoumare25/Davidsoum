@@ -70,7 +70,7 @@ loginBtn.addEventListener("click", async () => {
 // 🚪 DÉCONNEXION
 logoutBtn.addEventListener("click", async () => {
   await supabase.auth.signOut();
-  location.reload();
+  window.location.href = "home.html";
 });
 async function testPosts() {
     const { data, error } = await supabase.from("posts").select("*");
